@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="
+        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <bean id="properties" class="config.TestDataProperties">
+        <property name="url" value="${url}"/>
+        <property name="username" value="${username}"/>
+        <property name="password" value="${password}"/>
+    </bean>
+
+    <!-- bean definitions here -->
+    <beans profile="prod">
+        <bean class="org.springframework.context.support.PropertySourcesPlaceholderConfigurer">
+            <property name="location" value="classpath:prod.properties"/>
+        </bean>
+    </beans>
+</beans>
