@@ -6,8 +6,8 @@
 
     <bean id="properties" class="config.TestDataProperties">
         <property name="url" value="${url}"/>
-        <property name="username" value="${username}"/>
-        <property name="password" value="${password}"/>
+        <property name="protonuser" value="${protonuser}"/>
+        <property name="protonpassword" value="${protonpassword}"/>
     </bean>
 
     <!-- bean definitions here -->

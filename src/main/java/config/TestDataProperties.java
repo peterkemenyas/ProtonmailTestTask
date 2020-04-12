@@ -2,8 +2,8 @@ package config;
 
 public class TestDataProperties {
     private String url;
-    private String username;
-    private String password;
+    private String protonuser;
+    private String protonpassword;
 
     public String getUrl() {
         return url;
@@ -13,20 +13,19 @@ public class TestDataProperties {
         this.url = url;
     }
 
-    public String getUsername() {
-        return username;
+    public String getProtonuser() {
+        return protonuser;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setProtonuser(String protonuser) {
+        this.protonuser = protonuser;
     }
 
-    public String getPassword() {
-        return password;
+    public String getProtonpassword() {
+        return protonpassword;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
+    public void setProtonpassword(String protonpassword) {
+        this.protonpassword = protonpassword;
     }
-
 }

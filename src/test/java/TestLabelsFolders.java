@@ -28,8 +28,8 @@ public class TestLabelsFolders extends AbstractTestNGSpringContextTests {
 
         LoginPage loginPage = new LoginPage(driver);
         MainPage mainPage = loginPage.open(properties.getUrl())
-                .enterUsername(properties.getUsername())
-                .enterPassword(properties.getPassword())
+                .enterUsername(properties.getProtonuser())
+                .enterPassword(properties.getProtonpassword())
                 .clickLogin();
 
         SettingsPage settingsPage = mainPage.closePopIfOpen()
@@ -99,7 +99,7 @@ public class TestLabelsFolders extends AbstractTestNGSpringContextTests {
                 .clickCancel();
     }
 
-
+    @Test(priority = 8)
     @AfterClass
     public void tearDown(){
         driver.close();
