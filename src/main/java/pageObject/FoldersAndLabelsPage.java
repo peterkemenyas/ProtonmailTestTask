@@ -32,6 +32,8 @@ public class FoldersAndLabelsPage {
     private By deleteBtnSelector = By.cssSelector("div[aria-hidden='false']");
     private By confirmDelBtnSelector= By.xpath("//button[text()='Confirm']");
     private By alertSelector = By.cssSelector("div[role='alert']");
+    private By inputValMessageSelector = By.cssSelector("div[id='input-597']");
+    private By inputValTooltipSelector = By.cssSelector("");
 
 
 
@@ -244,5 +246,11 @@ public class FoldersAndLabelsPage {
     }
 
 
-
+    public FoldersAndLabelsPage verifyNameValidationMessage(String expValidationMessage) {
+        String actValidationMessage = BrowserActions.findElement(driver, inputValMessageSelector).getText();
+        Assert.assertEquals(actValidationMessage, expValidationMessage,
+                String.format("Actual name validation message was '%s' but expected was '%s'",
+                        actValidationMessage,expValidationMessage));
+        return this;
+    }
 }

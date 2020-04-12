@@ -1,4 +1,5 @@
 import config.TestDataProperties;
+import javafx.scene.paint.Color;
 import org.openqa.selenium.WebDriver;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
@@ -100,6 +101,28 @@ public class TestLabelsFolders extends AbstractTestNGSpringContextTests {
     }
 
     @Test(priority = 8)
+    public void folderSameNameValidation(){
+        foldersAndLabelsPage.deleteAllFoldersLabels()
+                .addFolder("Same Name Folder", Colors.ORCHID)
+                .addFolder("Same Name Folder", Colors.ORCHID)
+                .verifyNotification("A label or folder with this name already exists");
+    }
+
+    @Test(priority = 9)
+    public void labelSameNameValidation(){
+        foldersAndLabelsPage.addLabel("Same Name Label", Colors.BREECE)
+                .addLabel("Same Name Label", Colors.BREECE)
+                .verifyNotification("A label or folder with this name already exists");
+    }
+
+//    @Test(priority = 10)
+//    public void editFolderEmptyNameValidation(){
+//        foldersAndLabelsPage.addFolder("Folder For Name Validation", Colors.ORCHID)
+//                .editFolder("Folder For Name Validation", "", Colors.LILAC)
+//                .verifyNameValidationMessage("This field is required");
+//
+//    }
+
     @AfterClass
     public void tearDown(){
         driver.close();
