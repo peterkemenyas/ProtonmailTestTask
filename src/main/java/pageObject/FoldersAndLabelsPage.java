@@ -1,13 +1,11 @@
 package pageObject;
 
-
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.testng.Assert;
 import utils.BrowserActions;
 import utils.Colors;
-
 import java.util.List;
 
 
@@ -61,7 +59,6 @@ public class FoldersAndLabelsPage {
     public FoldersAndLabelsPage enterName(String folderName) {
         BrowserActions.type(driver, nameSelector, folderName);
         return this;
-
     }
 
     public FoldersAndLabelsPage selectColor(Colors color) {
@@ -72,7 +69,6 @@ public class FoldersAndLabelsPage {
     public FoldersAndLabelsPage clickSubmit() {
         BrowserActions.click(driver, submitBtnSelector);
         BrowserActions.loadPage(driver, driver.getCurrentUrl());
-
         return this;
     }
 
@@ -97,7 +93,6 @@ public class FoldersAndLabelsPage {
             }
         }
         return this;
-
     }
 
     public FoldersAndLabelsPage verifyNotification(String message){
@@ -164,7 +159,6 @@ public class FoldersAndLabelsPage {
                 break;
             }
         }
-
         return this;
     }
 
@@ -203,7 +197,6 @@ public class FoldersAndLabelsPage {
                     tableRows = table.findElements(folderLabelRowSelector);
                 }
             }
-            //driver.navigate().refresh();
         }
         return this;
     }

@@ -37,6 +37,7 @@ public class BrowserManager {
                 driverBrowserThread.set(capabilities.length > 0 ? new InternetExplorerDriver(new InternetExplorerOptions(capabilities[0])) : new InternetExplorerDriver(getDefaultIEOptions()));
                 break;
             case FIREFOX:
+                WebDriverManager.firefoxdriver().version("0.26.0").setup();
                 driverBrowserThread.set(capabilities.length > 0 ? new FirefoxDriver(new FirefoxOptions(capabilities[0])) : new FirefoxDriver(getDefaultFirefoxOptions()));
                 break;
             case CHROME:

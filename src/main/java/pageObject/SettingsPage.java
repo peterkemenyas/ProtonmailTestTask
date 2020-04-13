@@ -16,6 +16,5 @@ public class SettingsPage {
     public FoldersAndLabelsPage clickFoldersAndLabels(){
         BrowserActions.click(driver, folderAndLabelsCss);
         return new FoldersAndLabelsPage(driver);
-
     }
 }

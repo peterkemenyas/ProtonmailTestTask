@@ -43,7 +43,7 @@ public class TestLabelsFolders extends AbstractTestNGSpringContextTests {
     }
 
     @Test(priority = 1)
-    public void addNewFolder(){
+    public void addFolder(){
         foldersAndLabelsPage.refreshFoldersAndLabelsPage()
                 .addFolder("Salmon Folder", Colors.SALMON)
                 .verifyNotification("Salmon Folder created")
@@ -191,6 +191,12 @@ public class TestLabelsFolders extends AbstractTestNGSpringContextTests {
                 .clickSubmit()
                 .verifyNotification("Name too long")
                 .clickCancel();
+    }
+
+    @Test(priority = 16)
+    public void testToTriggerLogOutIssue(){
+        driver.navigate().refresh();
+        driver.navigate().refresh();
     }
 
     @AfterClass
