@@ -1,5 +1,4 @@
 import config.TestDataProperties;
-import javafx.scene.paint.Color;
 import org.openqa.selenium.WebDriver;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
@@ -19,12 +18,15 @@ public class TestLabelsFolders extends AbstractTestNGSpringContextTests {
 
     @Autowired
     private TestDataProperties properties;
+    @Autowired
+    private String browser;
+
     private FoldersAndLabelsPage foldersAndLabelsPage;
     private WebDriver driver;
 
     @BeforeClass
     public void preconditionFoldersLabels(){
-        BrowserManager.createLocalBrowserInstance("firefox");
+        BrowserManager.createLocalBrowserInstance(browser);
         driver = BrowserManager.getWebDriver();
 
         LoginPage loginPage = new LoginPage(driver);
@@ -42,50 +44,60 @@ public class TestLabelsFolders extends AbstractTestNGSpringContextTests {
 
     @Test(priority = 1)
     public void addNewFolder(){
-        foldersAndLabelsPage.addFolder("Salmon Folder", Colors.SALMON)
-            .verifyNotification("Salmon Folder created")
-            .verifyFolder("Salmon Folder", Colors.SALMON);
+        foldersAndLabelsPage.refreshFoldersAndLabelsPage()
+                .addFolder("Salmon Folder", Colors.SALMON)
+                .verifyNotification("Salmon Folder created")
+                .verifyFolder("Salmon Folder", Colors.SALMON);
         }
 
     @Test(priority = 2)
     public void editFolder(){
-        foldersAndLabelsPage.addFolder("Lavander Folder", Colors.LAVANDER)
-            .editFolder("Lavander Folder","Lavander Main Emails", Colors.MINT)
-            .verifyNotification("Lavander Main Emails updated")
-            .verifyFolder("Lavander Main Emails", Colors.MINT);
+        foldersAndLabelsPage.refreshFoldersAndLabelsPage()
+                .addFolder("Lavander Folder", Colors.LAVANDER)
+                .refreshFoldersAndLabelsPage()
+                .editFolder("Lavander Folder","Lavander Main Emails", Colors.MINT)
+                .verifyNotification("Lavander Main Emails updated")
+                .verifyFolder("Lavander Main Emails", Colors.MINT);
     }
 
     @Test(priority = 3)
     public void deleteFolder(){
-        foldersAndLabelsPage.addFolder("Apricot Folder", Colors.APRICOT)
-            .deleteFolder("Apricot Folder")
-            .verifyNotification("Apricot Folder removed")
-            .verifyFolderLabelDeleted("Apricot Folder");
+        foldersAndLabelsPage.refreshFoldersAndLabelsPage()
+                .addFolder("Apricot Folder", Colors.APRICOT)
+                .refreshFoldersAndLabelsPage()
+                .deleteFolder("Apricot Folder")
+                .verifyNotification("Apricot Folder removed")
+                .verifyFolderLabelDeleted("Apricot Folder");
     }
 
     @Test(priority = 4)
      public void addLabel(){
-        foldersAndLabelsPage.addLabel("Sky Label", Colors.SKY)
-            .verifyNotification("Sky Label created")
-            .verifyLabel("Sky Label", Colors.SKY);
+        foldersAndLabelsPage.refreshFoldersAndLabelsPage()
+                .addLabel("Sky Label", Colors.SKY)
+                .verifyNotification("Sky Label created")
+                .verifyLabel("Sky Label", Colors.SKY);
 
     }
 
     @Test(priority = 5)
     public void editLabel(){
-        foldersAndLabelsPage.addLabel("Frost Label", Colors.FROST)
-            .editLabel("Frost Label", "Ice Label", Colors.LILAC)
-            .verifyNotification("Ice Label updated")
-            .verifyLabel("Ice Label", Colors.LILAC);
+        foldersAndLabelsPage.refreshFoldersAndLabelsPage()
+                .addLabel("Frost Label", Colors.FROST)
+                .refreshFoldersAndLabelsPage()
+                .editLabel("Frost Label", "Ice Label", Colors.LILAC)
+                .verifyNotification("Ice Label updated")
+                .verifyLabel("Ice Label", Colors.LILAC);
 
     }
 
     @Test(priority = 6)
     public void deleteLabel(){
-        foldersAndLabelsPage.addLabel("Tea Label", Colors.TEA)
-            .deleteLebel("Tea Label")
-            .verifyNotification("Tea Label removed")
-            .verifyFolderLabelDeleted("Tea Label");
+        foldersAndLabelsPage.refreshFoldersAndLabelsPage()
+                .addLabel("Tea Label", Colors.TEA)
+                .refreshFoldersAndLabelsPage()
+                .deleteLebel("Tea Label")
+                .verifyNotification("Tea Label removed")
+                .verifyFolderLabelDeleted("Tea Label");
 
     }
 
@@ -95,6 +107,7 @@ public class TestLabelsFolders extends AbstractTestNGSpringContextTests {
                 .addFolder("1st Folder", Colors.MINT)
                 .addFolder("2nd Folder", Colors.LILAC)
                 .addFolder("3rd Folder", Colors.CORAL)
+                .refreshFoldersAndLabelsPage()
                 .addFolder("4th Not Allowed Folder", Colors.ORCHID)
                 .verifyNotification("Folder limit reached. Please upgrade to a paid plan to add more folders")
                 .clickCancel();
@@ -104,24 +117,81 @@ public class TestLabelsFolders extends AbstractTestNGSpringContextTests {
     public void folderSameNameValidation(){
         foldersAndLabelsPage.deleteAllFoldersLabels()
                 .addFolder("Same Name Folder", Colors.ORCHID)
+                .refreshFoldersAndLabelsPage()
                 .addFolder("Same Name Folder", Colors.ORCHID)
-                .verifyNotification("A label or folder with this name already exists");
+                .verifyNotification("A label or folder with this name already exists")
+                .clickCancel();
     }
 
     @Test(priority = 9)
     public void labelSameNameValidation(){
         foldersAndLabelsPage.addLabel("Same Name Label", Colors.BREECE)
+                .refreshFoldersAndLabelsPage()
                 .addLabel("Same Name Label", Colors.BREECE)
-                .verifyNotification("A label or folder with this name already exists");
+                .verifyNotification("A label or folder with this name already exists")
+                .clickCancel();
     }
 
-//    @Test(priority = 10)
-//    public void editFolderEmptyNameValidation(){
-//        foldersAndLabelsPage.addFolder("Folder For Name Validation", Colors.ORCHID)
-//                .editFolder("Folder For Name Validation", "", Colors.LILAC)
-//                .verifyNameValidationMessage("This field is required");
-//
-//    }
+    @Test(priority = 10)
+    public void editFolderEmptyNameValidation(){
+        foldersAndLabelsPage.addFolder("Folder For Name Validation", Colors.ORCHID)
+                .refreshFoldersAndLabelsPage()
+                .clickEdit("Folder For Name Validation")
+                .enterName("")
+                .selectColor(Colors.MINT)
+                .verifyNameValidationMessage("This field is required")
+                .clickCancel();
+
+    }
+
+    @Test(priority = 11)
+    public void editLabelEmptyNameValidation(){
+        foldersAndLabelsPage.addLabel("Label For Name Validation", Colors.DANDELION)
+                .refreshFoldersAndLabelsPage()
+                .clickEdit("Label For Name Validation")
+                .enterName("")
+                .selectColor(Colors.SKY)
+                .verifyNameValidationMessage("This field is required")
+                .clickCancel();
+    }
+
+    @Test(priority = 12)
+    public void addFolderMaxNameValid(){
+        foldersAndLabelsPage.refreshFoldersAndLabelsPage()
+                .clickNewFolder()
+                .enterName("MAX ALLOWED NAME MAX ALLOWED NAME MAX ALLOWED NAME MAX ALLOWED NAME MAX ALLOWED NAME MAX ALLOWED NAM")
+                .clickSubmit()
+                .verifyNotification("MAX ALLOWED NAME MAX ALLOWED NAME MAX ALLOWED NAME MAX ALLOWED NAME MAX ALLOWED NAME MAX ALLOWED NAM created");
+    }
+
+    @Test(priority = 13)
+    public void addLabelMaxNameValid(){
+        foldersAndLabelsPage.refreshFoldersAndLabelsPage()
+                .clickNewLabel()
+                .enterName("MAX ALLOWED NAME MAX ALLOWED NAME MAX ALLOWED NAME MAX ALLOWED NAME MAX ALLOWED NAME MAX ALLOWED NA1")
+                .clickSubmit()
+                .verifyNotification("MAX ALLOWED NAME MAX ALLOWED NAME MAX ALLOWED NAME MAX ALLOWED NAME MAX ALLOWED NAME MAX ALLOWED NA1 created");
+    }
+
+    @Test(priority = 14)
+    public void addFolderMaxNameInvalid(){
+        foldersAndLabelsPage.refreshFoldersAndLabelsPage()
+                .clickNewFolder()
+                .enterName("OVER MAX ALLOWED NAME OVER MAX ALLOWED NAME OVER MAX ALLOWED NAME OVER MAX ALLOWED NAME OVER MAX ALLO")
+                .clickSubmit()
+                .verifyNotification("Name too long")
+                .clickCancel();
+    }
+
+    @Test(priority = 15)
+    public void addLabelMaxNameInvalid(){
+        foldersAndLabelsPage.refreshFoldersAndLabelsPage()
+                .clickNewLabel()
+                .enterName("OVER MAX ALLOWED NAME OVER MAX ALLOWED NAME OVER MAX ALLOWED NAME OVER MAX ALLOWED NAME OVER MAX ALLO")
+                .clickSubmit()
+                .verifyNotification("Name too long")
+                .clickCancel();
+    }
 
     @AfterClass
     public void tearDown(){

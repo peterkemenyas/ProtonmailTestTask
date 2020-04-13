@@ -10,6 +10,10 @@
         <property name="protonpassword" value="${protonpassword}"/>
     </bean>
 
+    <bean id="browser" class="java.lang.String">
+        <constructor-arg value="#{systemProperties.browser}"/>
+    </bean>
+
     <!-- bean definitions here -->
     <beans profile="prod">
         <bean class="org.springframework.context.support.PropertySourcesPlaceholderConfigurer">

@@ -32,13 +32,18 @@ public class FoldersAndLabelsPage {
     private By deleteBtnSelector = By.cssSelector("div[aria-hidden='false']");
     private By confirmDelBtnSelector= By.xpath("//button[text()='Confirm']");
     private By alertSelector = By.cssSelector("div[role='alert']");
-    private By inputValMessageSelector = By.cssSelector("div[id='input-597']");
+    private By inputValMessageSelector = By.cssSelector("div[class='color-global-warning error-zone']");
     private By inputValTooltipSelector = By.cssSelector("");
 
 
 
     public FoldersAndLabelsPage(WebDriver driver){this.driver = driver;}
 
+    public FoldersAndLabelsPage refreshFoldersAndLabelsPage(){
+        driver.navigate().refresh();
+        BrowserActions.loadPage(driver, driver.getCurrentUrl());
+        return this;
+    }
 
     public FoldersAndLabelsPage clickNewFolder() {
         BrowserActions.loadPage(driver, driver.getCurrentUrl());
@@ -77,14 +82,30 @@ public class FoldersAndLabelsPage {
         return this;
     }
 
+    public FoldersAndLabelsPage clickEdit(WebElement row){
+        row.findElement(editBtnColSelector).click();
+        return this;
+    }
+
+    public FoldersAndLabelsPage clickEdit(String name){
+        WebElement table = driver.findElement(folderLabelTableSelector);
+        List<WebElement> tableRows = table.findElements(folderLabelRowSelector);
+        for(WebElement row : tableRows){
+            String actName = row.findElement(nameColSelector).getText();
+            if(actName.equals(name)){
+                clickEdit(row);
+            }
+        }
+        return this;
+
+    }
+
     public FoldersAndLabelsPage verifyNotification(String message){
         Assert.assertTrue(getAlertText().equals(message));
         return this;
     }
 
     public FoldersAndLabelsPage addFolder(String folderName, Colors folderColor){
-        driver.navigate().refresh();
-        BrowserActions.loadPage(driver, driver.getCurrentUrl());
         clickNewFolder();
         enterName(folderName);
         selectColor(folderColor);
@@ -93,8 +114,6 @@ public class FoldersAndLabelsPage {
     }
 
     public FoldersAndLabelsPage addLabel(String labelName, Colors labelColor){
-        driver.navigate().refresh();
-        BrowserActions.loadPage(driver, driver.getCurrentUrl());
         clickNewLabel();
         enterName(labelName);
         selectColor(labelColor);
@@ -104,17 +123,14 @@ public class FoldersAndLabelsPage {
 
 
     public FoldersAndLabelsPage editFolder(String oldFolderName, String newFolderName, Colors newColor) {
-        driver.navigate().refresh();
-        BrowserActions.loadPage(driver, driver.getCurrentUrl());
         List<WebElement> tableRows = BrowserActions.findElements(driver,folderRowSelector);
         for (WebElement row : tableRows) {
             String actFolderName = row.findElement(nameColSelector).getText();
             if (actFolderName.equals(oldFolderName)) {
-                row.findElement(editBtnColSelector).click();
-                BrowserActions.type(driver, nameSelector, newFolderName);
-                BrowserActions.click(driver, By.cssSelector("li[style='"+newColor+"']"));
-                BrowserActions.click(driver, submitBtnSelector);
-                BrowserActions.loadPage(driver, driver.getCurrentUrl());
+                clickEdit(row);
+                enterName(newFolderName);
+                selectColor(newColor);
+                clickSubmit();
                 break;
             }
         }
@@ -122,8 +138,6 @@ public class FoldersAndLabelsPage {
     }
 
     public FoldersAndLabelsPage deleteFolder(String folderName) {
-        driver.navigate().refresh();
-        BrowserActions.loadPage(driver, driver.getCurrentUrl());
         List<WebElement> tableRows = BrowserActions.findElements(driver, folderRowSelector);
         for(WebElement row : tableRows){
             String actFolderName = row.findElement(nameColSelector).getText();
@@ -139,17 +153,14 @@ public class FoldersAndLabelsPage {
     }
 
     public FoldersAndLabelsPage editLabel(String oldLabelName, String newLabelName, Colors newColor) {
-        driver.navigate().refresh();
-        BrowserActions.loadPage(driver, driver.getCurrentUrl());
         List<WebElement> tableRows = BrowserActions.findElements(driver, labelRowSelector);
         for (WebElement row : tableRows) {
             String actLabelName = row.findElement(nameColSelector).getText();
             if (actLabelName.equals(oldLabelName)) {
-                row.findElement(editBtnColSelector).click();
-                BrowserActions.type(driver, nameSelector, newLabelName);
-                BrowserActions.click(driver, By.cssSelector("li[style='"+newColor+"']"));
-                BrowserActions.click(driver, submitBtnSelector);
-                BrowserActions.loadPage(driver, driver.getCurrentUrl());
+                clickEdit(row);
+                enterName(newLabelName);
+                selectColor(newColor);
+                clickSubmit();
                 break;
             }
         }
@@ -158,8 +169,6 @@ public class FoldersAndLabelsPage {
     }
 
     public FoldersAndLabelsPage deleteLebel(String labelName) {
-        driver.navigate().refresh();
-        BrowserActions.loadPage(driver, driver.getCurrentUrl());
         List<WebElement> tableRows = BrowserActions.findElements(driver, labelRowSelector);
         for(WebElement row : tableRows){
             String actFolderName = row.findElement(nameColSelector).getText();
@@ -194,6 +203,7 @@ public class FoldersAndLabelsPage {
                     tableRows = table.findElements(folderLabelRowSelector);
                 }
             }
+            //driver.navigate().refresh();
         }
         return this;
     }
@@ -247,7 +257,10 @@ public class FoldersAndLabelsPage {
 
 
     public FoldersAndLabelsPage verifyNameValidationMessage(String expValidationMessage) {
-        String actValidationMessage = BrowserActions.findElement(driver, inputValMessageSelector).getText();
+        BrowserActions.loadPage(driver, driver.getCurrentUrl());
+        WebElement nameField = BrowserActions.findElement(driver, nameSelector);
+        WebElement nameFieldArea = nameField.findElement(By.xpath("./.."));
+        String actValidationMessage = nameFieldArea.findElement(inputValMessageSelector).getText();
         Assert.assertEquals(actValidationMessage, expValidationMessage,
                 String.format("Actual name validation message was '%s' but expected was '%s'",
                         actValidationMessage,expValidationMessage));

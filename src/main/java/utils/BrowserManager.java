@@ -1,5 +1,6 @@
 package utils;
 
+import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
@@ -39,6 +40,7 @@ public class BrowserManager {
                 driverBrowserThread.set(capabilities.length > 0 ? new FirefoxDriver(new FirefoxOptions(capabilities[0])) : new FirefoxDriver(getDefaultFirefoxOptions()));
                 break;
             case CHROME:
+                WebDriverManager.chromedriver().version("81.0.4044.69").setup();
                 driverBrowserThread.set(capabilities.length > 0 ? new ChromeDriver(new ChromeOptions().merge((capabilities[0]))) : new ChromeDriver(getDefaultChromeOptions()));
                 break;
             default:
@@ -108,7 +110,15 @@ public class BrowserManager {
     }
 
     private ChromeOptions getDefaultChromeOptions() {
-        return new ChromeOptions();
+        ChromeOptions options = new ChromeOptions();
+        options.addArguments("start-maximized");
+        options.addArguments("enable-automation");
+        options.addArguments("--no-sandbox");
+        options.addArguments("--disable-infobars");
+        options.addArguments("--disable-dev-shm-usage");
+        options.addArguments("--disable-browser-side-navigation");
+        options.addArguments("--disable-gpu");
+        return options;
     }
 
     private void killBrowserProcess(BrowserManager.SupportedBrowsers browserName) throws IOException {
