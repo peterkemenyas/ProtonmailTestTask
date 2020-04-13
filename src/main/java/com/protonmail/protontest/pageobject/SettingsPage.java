@@ -1,8 +1,8 @@
-package pageObject;
+package com.protonmail.protontest.pageobject;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import utils.BrowserActions;
+import com.protonmail.protontest.utils.BrowserActions;
 
 public class SettingsPage {
 

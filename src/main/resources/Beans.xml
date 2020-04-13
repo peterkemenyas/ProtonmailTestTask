@@ -4,7 +4,7 @@
        xsi:schemaLocation="
         http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-    <bean id="properties" class="config.TestDataProperties">
+    <bean id="properties" class="com.protonmail.protontest.config.TestDataProperties">
         <property name="url" value="${url}"/>
         <property name="protonuser" value="${protonuser}"/>
         <property name="protonpassword" value="${protonpassword}"/>

@@ -57,7 +57,7 @@ Test cases can be executed from IDE.
 * In "Preferences" set the Maven settings
 * In "Run/Debug Configurations -> Templates -> TestNG" set  "VM Options"  to 
 ```
--ea -Dspring.profiles.active="prod" -Dbrowser="firefox"
+-Dspring.profiles.active="prod" -Dbrowser="firefox"
 ```
 * Simply click on "Run test" icon next to required test method or test class. 
 ### Test Design
@@ -109,5 +109,17 @@ brew services start jenkins-lts
 * After create a new job. Select Pipeline, enter name "ProtonMailTest" and click OK.
 * In Pipeline section select "Pipeline script from SCM". SCM = "Git" 
 * Repository URL = https://github.com/peterkemenyas/ProtonmailTestTask.git and click Save.
-* 
- 
+* Run the job
+* Stop Jenkins 
+```
+brew services stop jenkins-lts
+```
+Successful build should look like the following
+```
+Tests run: 16, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 195.345 sec
+Results :
+Tests run: 16, Failures: 0, Errors: 0, Skipped: 0
+...
+[INFO] BUILD SUCCESS
+```
+[CI Build Run](./CIBuild.png) 

@@ -1,4 +1,4 @@
-package config;
+package com.protonmail.protontest.config;
 
 public class TestDataProperties {
     private String url;

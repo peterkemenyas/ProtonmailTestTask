@@ -1,4 +1,4 @@
-import config.TestDataProperties;
+import com.protonmail.protontest.config.TestDataProperties;
 import org.openqa.selenium.WebDriver;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
@@ -6,12 +6,12 @@ import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
-import pageObject.FoldersAndLabelsPage;
-import pageObject.LoginPage;
-import pageObject.MainPage;
-import pageObject.SettingsPage;
-import utils.BrowserManager;
-import utils.Colors;
+import com.protonmail.protontest.pageobject.FoldersAndLabelsPage;
+import com.protonmail.protontest.pageobject.LoginPage;
+import com.protonmail.protontest.pageobject.MainPage;
+import com.protonmail.protontest.pageobject.SettingsPage;
+import com.protonmail.protontest.utils.BrowserManager;
+import com.protonmail.protontest.utils.Colors;
 
 @ContextConfiguration(locations = {"classpath:Beans.xml"})
 public class TestLabelsFolders extends AbstractTestNGSpringContextTests {

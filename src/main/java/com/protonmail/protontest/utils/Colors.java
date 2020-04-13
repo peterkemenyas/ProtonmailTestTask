@@ -1,4 +1,4 @@
-package utils;
+package com.protonmail.protontest.utils;
 
 public enum Colors {
     MAUVE { public String toString() {return "color: rgb(114, 114, 167);";} },

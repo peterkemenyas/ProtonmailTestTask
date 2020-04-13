@@ -1,11 +1,11 @@
-package pageObject;
+package com.protonmail.protontest.pageobject;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.testng.Assert;
-import utils.BrowserActions;
-import utils.Colors;
+import com.protonmail.protontest.utils.BrowserActions;
+import com.protonmail.protontest.utils.Colors;
 import java.util.List;
 
 
