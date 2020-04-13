@@ -92,4 +92,22 @@ Actual Result: User is logged out
 
 Expected Result: This needs to be clarified with Business Analyst or Product Owner. 
 
-Note: I could not reproduce it manually as browser does not allow to click so fast the Refresh button. To reproduce the issue you can execute testToTriggerLogOutIssue() test method
+Note: I could not reproduce it manually as browser does not allow to click so fast the Refresh button. To reproduce the issue you can execute testToTriggerLogOutIssue() test method.
+
+## CI Pipeline
+I am using MacOS so all commands will be for this OS.
+* Install Jenkins
+```
+brew install jenkins-lts
+```
+* Start Jenkins
+```
+brew services start jenkins-lts
+```
+* Open Jenkins in Browser (http://localhost:8080/), set 1st admin password and install suggested plugins
+* Create admin user 
+* After create a new job. Select Pipeline, enter name "ProtonMailTest" and click OK.
+* In Pipeline section select "Pipeline script from SCM". SCM = "Git" 
+* Repository URL = https://github.com/peterkemenyas/ProtonmailTestTask.git and click Save.
+* 
+ 
