@@ -1,7 +1,7 @@
 # ProtonMail Automated Testing for "Folder/Labels Settings"
 
 This project is for writing automated UI tests against any ProtonMail environment using Selenium with Java. 
-The purpose of this project is to complete the technical task provided during interview process.  
+
 # Concepts included
 * Page Object pattern
 * Fluent interface
